@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'build/styles.css' %}">
+</head>
+<body>
+    <app-root></app-root>
+
+    <script src="{% static 'build/main.js' %}"></script>
+    <script src="{% static 'build/polyfills.js' %}"></script>
+    <script src="{% static 'build/runtime.js' %}"></script>
+</body>
+</html>
