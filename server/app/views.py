@@ -61,21 +61,21 @@ def get_initial_room_data(req):
         initial_data = []
 
     return JsonResponse({'data': initial_data})
-def get_user(req, id):
-    try:
-        user = User.objects.get(pk=id)
-        serializer = UserSerializer(user)
-        user_dict = serializer.data
-        # Get user profile details
-        user_profile = user.userprofile_set.all()[0]
-        user_profile_dict = UserProfileSerializer(user_profile).data
-        user_data = {
-            'user': user_dict,
-            'user_profile': user_profile_dict
-        }
-    except User.DoesNotExist:
-        user_data = {
-            'error': 'User does not exist.'
-        }
-
-    return JsonResponse(user_data)
+def load_users(request):
+    ids = request.GET.get('ids').split(',')
+    users = User.objects.filter(pk__in=ids)
+    user_data = list(map(
+        lambda user: UserSerializer(user).data,
+        users
+    ))
+    def safe_user_map_function(user):
+        user_profile = UserProfile.objects.filter(user_id=user['id'])
+        return {
+            **user,
+            'profile': UserProfileSerializer(user_profile[0]).data
+        } if user_profile else user
+    user_data_with_profiles = list(map(
+        safe_user_map_function,
+        user_data
+    ))
+    return JsonResponse({ 'data': user_data_with_profiles })
