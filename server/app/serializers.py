@@ -16,12 +16,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ('avatar',)
 class UserSerializer(serializers.ModelSerializer):
+    profile = UserProfileSerializer()
     class Meta:
         model = User
-        fields = ('username', 'id')
+        fields = ('username', 'id', 'profile')
 
 class UserInRoomSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user = UserSerializer()
     room = serializers.PrimaryKeyRelatedField(queryset=Room.objects.all())
     data = UserInRoomDataSerializer()
 
