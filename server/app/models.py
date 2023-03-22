@@ -20,7 +20,7 @@ class Room(models.Model):
     def __str__(self):
         return self.name
 
-class UserInRoomData(models.Model):
+class AttendeeData(models.Model):
     x = models.FloatField()
     y = models.FloatField()
 
@@ -28,11 +28,11 @@ class UserInRoomData(models.Model):
 
     class Meta:
         verbose_name_plural = 'user in room data'
-class UserInRoom(models.Model):
+class Attendee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
-    data = models.ForeignKey(UserInRoomData, on_delete=models.CASCADE)
+    data = models.ForeignKey(AttendeeData, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.user} in {self.room.name}'

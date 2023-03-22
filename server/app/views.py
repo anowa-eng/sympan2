@@ -20,9 +20,9 @@ def get_initial_room_data(req):
     current_room = req.session.get('current_room')
     try:
         room_object = Room.objects.get(pk=current_room)
-        room_user_data = room_object.userinroom_set.all()
+        room_user_data = room_object.attendee_set.all()
         serialized_data = list(map(
-            lambda room_user: UserInRoomSerializer(room_user).data,
+            lambda room_user: AttendeeSerializer(room_user).data,
             room_user_data
         ))
         return JsonResponse({'data': serialized_data})

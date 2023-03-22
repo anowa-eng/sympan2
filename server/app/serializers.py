@@ -6,9 +6,9 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = ('name', 'private')
-class UserInRoomDataSerializer(serializers.ModelSerializer):
+class AttendeeDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserInRoomData
+        model = AttendeeData
         fields = ('x', 'y', 'direction')
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -21,11 +21,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'id', 'profile')
 
-class UserInRoomSerializer(serializers.ModelSerializer):
+class AttendeeSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     room = serializers.PrimaryKeyRelatedField(queryset=Room.objects.all())
-    data = UserInRoomDataSerializer()
+    data = AttendeeDataSerializer()
 
     class Meta:
-        model = UserInRoom
+        model = Attendee
         fields = '__all__'
