@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, HostListener } from "@angular/core";
 import { AttendeeData } from './attendee-types';
+import { viewBox } from "./viewbox";
 
 @Component({
   selector: 'app-room-view',
@@ -8,18 +9,22 @@ import { AttendeeData } from './attendee-types';
   styleUrls: ['./room-view.component.scss']
 })
 export class RoomViewComponent {
-  roomData?: AttendeeData[] | unknown = {};
+  userId = 1;
+
+  roomData: AttendeeData[] = [];
   windowDims = {
     width: window.innerWidth,
     height: window.innerHeight
   };
-  constructor(private httpClient: HttpClient) {}
+  viewBox = viewBox;
+  constructor(private httpClient: HttpClient) {
+    this.httpClient.get('/api/roomdata')
+      .subscribe((response: any) => {
+        this.roomData = response.data;
+      })
+  }
 
   ngOnInit() {
-    this.httpClient.get('/api/roomdata')
-      .subscribe((data: unknown) => {
-        this.roomData = data;
-      })
   }
 
   @HostListener('window:resize')
@@ -28,5 +33,7 @@ export class RoomViewComponent {
       width: window.innerWidth,
       height: window.innerHeight
     };
+    let localAttendee = this.roomData.find((attendee) => attendee.user.id === this.userId);
+    this.viewBox = viewBox(this.windowDims, localAttendee!.data)
   }
 }
