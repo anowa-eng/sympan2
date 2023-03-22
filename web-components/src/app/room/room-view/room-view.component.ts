@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
-import { ChangeDetectorRef, Component } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
+import { AttendeeData } from './attendee-types';
 
 @Component({
   selector: 'app-room-view',
@@ -7,21 +8,25 @@ import { ChangeDetectorRef, Component } from "@angular/core";
   styleUrls: ['./room-view.component.scss']
 })
 export class RoomViewComponent {
-  data?: unknown;
-  windowDims = () => ({
+  roomData?: AttendeeData[] | unknown = {};
+  windowDims = {
     width: window.innerWidth,
     height: window.innerHeight
-  });
-  junk = {
-    stringifiedWindowDims: () => JSON.stringify(this.windowDims())
   };
-  constructor(private httpClient: HttpClient, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private httpClient: HttpClient) {}
 
   ngOnInit() {
-    this.changeDetectorRef.detectChanges();
     this.httpClient.get('/api/roomdata')
-      .subscribe((res: unknown) => {
-        this.data = JSON.stringify(res);
+      .subscribe((data: unknown) => {
+        this.roomData = data;
       })
+  }
+
+  @HostListener('window:resize')
+  updateWindowDims() {
+    this.windowDims = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
   }
 }

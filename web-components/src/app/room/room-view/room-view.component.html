@@ -1,2 +1,12 @@
-<p>room-view works!</p>
-<p>oh and by the way your data is {{data}} and your windowDims are {{junk.stringifiedWindowDims()}}</p>
+<div>
+    <p *ngFor="let attendee in roomData">{{attendee.user.username}} at ({{attendee.data.x}}, {{attendee.data.y}}) facing {{attendee.data.direction}}&deg;</p>
+</div>
+
+<svg [attr.width]="windowDims.width" [attr.height]="windowDims.height" attr.viewBox="0 0 {{windowDims.width}} {{windowDims.height}}" *ngIf="roomData">
+    <circle
+        r="12.5" 
+        [attr.x]="attendee.data.x"
+        [attr.y]="attendee.data.y"
+        *ngFor="let attendee in roomData"
+        fill="black"></circle>
+</svg>
