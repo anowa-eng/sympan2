@@ -1,4 +1,4 @@
-<svg [attr.width]="windowDims.width" [attr.height]="windowDims.height" attr.viewBox="0 0 {{windowDims.width}} {{windowDims.height}}" *ngIf="roomData">
+<svg attr.viewBox="{{-viewBox.translateX}} {{-viewBox.translateY}} {{windowDims.width}} {{windowDims.height}}" *ngIf="roomData">
     <defs>
         <pattern attr.id="pattern-{{attendee.user.id}}" width="25" height="25" *ngFor="let attendee of roomData">
             <image [attr.href]="attendee.user.profile.avatar" width="25" height="25"></image>

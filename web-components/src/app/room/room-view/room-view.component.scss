@@ -1,3 +1,14 @@
-svg {
-    margin: 0;
+:host {
+    width: 100vw;
+    height: 100vh;
+    
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+
+    svg {
+        width: inherit;
+        height: inherit;
+    }
 }
