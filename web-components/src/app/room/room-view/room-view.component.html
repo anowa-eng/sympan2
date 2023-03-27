@@ -6,7 +6,7 @@
     </defs>
     <circle
         r="12.5"
-        attr.transform="translate({{attendee.data.x}} {{attendee.data.y}}) rotate({{attendee.data.direction}})"
+        attr.transform="translate({{attendee.data.data.x}} {{attendee.data.data.y}}) rotate({{attendee.data.data.direction + 90}})"
         attr.fill="url(#pattern-{{attendee.user.id}})"
         *ngFor="let attendee of roomData"></circle>
 </svg>

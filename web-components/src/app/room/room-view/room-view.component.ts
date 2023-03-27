@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, HostListener } from "@angular/core";
-import { AttendeeData } from './attendee-types';
+import { AttendeeData, AttendeeDataWithObject } from './attendee-types';
+import { Attendee, RoomEvent, RoomEventStates, RoomEventTypes } from "./events/RoomEvent";
 import { ViewBox, viewBox } from "./viewbox";
 
 @Component({
@@ -11,7 +12,7 @@ import { ViewBox, viewBox } from "./viewbox";
 export class RoomViewComponent {
   userId = 1;
 
-  roomData: AttendeeData[] = [];
+  roomData: AttendeeDataWithObject[] = [];
   windowDims = {
     width: window.innerWidth,
     height: window.innerHeight
@@ -20,19 +21,39 @@ export class RoomViewComponent {
     translateX: 0,
     translateY: 0
   };
+
+  localAttendee?: AttendeeDataWithObject;
+
   constructor(private httpClient: HttpClient) {
     this.httpClient.get('/api/roomdata')
       .subscribe((response: any) => {
-        this.roomData = response.data;
+        this.roomData = response.data.map((attendee: AttendeeData) => ({
+          ...attendee,
+          data: new Attendee(attendee.data)
+        }));
+        console.log(this.roomData);
+        this.localAttendee = this.roomData.find((attendee) => attendee.user.id === this.userId);
         this.setViewBox();
+        this.onInit();
       })
   }
 
-  ngOnInit() {}
+  onInit() {
+    // Debug.
+    let attendee = this.localAttendee!.data;
+    let roomEvent = new RoomEvent(attendee, {
+      event: RoomEventTypes.MoveForward,
+      state: RoomEventStates.Issue
+    });
+    roomEvent.fire();
+    attendee.playTimeline();
+    attendee.onRefresh.subscribe(() => {
+      this.setViewBox()
+    });
+  }
 
   setViewBox() {
-    let localAttendee = this.roomData.find((attendee) => attendee.user.id === this.userId);
-    this.viewBox = viewBox(this.windowDims, localAttendee!.data);
+    this.viewBox = viewBox(this.windowDims, this.localAttendee!.data.data);
   }
 
   @HostListener('window:resize')
