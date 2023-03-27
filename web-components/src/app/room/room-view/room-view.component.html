@@ -1,12 +1,18 @@
-<svg attr.viewBox="{{-viewBox.translateX}} {{-viewBox.translateY}} {{windowDims.width}} {{windowDims.height}}" *ngIf="roomData">
+<svg
+  *ngIf="roomData && localAttendee"
+  (window:keydown)="onKeyDown($event)"
+  (window:keyup)="onKeyUp($event)"
+  attr.viewBox="{{-viewBox.translateX}} {{-viewBox.translateY}} {{windowDims.width}} {{windowDims.height}}">
     <defs>
         <pattern attr.id="pattern-{{attendee.user.id}}" width="25" height="25" *ngFor="let attendee of roomData">
             <image [attr.href]="attendee.user.profile.avatar" width="25" height="25"></image>
         </pattern>
     </defs>
-    <circle
-        r="12.5"
-        attr.transform="translate({{attendee.data.x}} {{attendee.data.y}}) rotate({{attendee.data.direction}})"
-        attr.fill="url(#pattern-{{attendee.user.id}})"
-        *ngFor="let attendee of roomData"></circle>
+    <g attr.transform="rotate({{-viewBox.rotate}})" attr.transform-origin="{{localAttendee!.data!.data!.x || 0}} {{localAttendee!.data!.data!.y || 0}}">
+        <circle
+            r="12.5"
+            attr.transform="translate({{attendee.data.data.x}} {{attendee.data.data.y}}) rotate({{attendee.data.data.direction}})"
+            attr.fill="url(#pattern-{{attendee.user.id}})"
+            *ngFor="let attendee of roomData"></circle>
+    </g>
 </svg>
