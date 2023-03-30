@@ -24,7 +24,7 @@ class AttendeeData(models.Model):
     x = models.FloatField()
     y = models.FloatField()
 
-    direction = models.PositiveSmallIntegerField()
+    direction = models.FloatField()
 
     class Meta:
         verbose_name_plural = 'user in room data'
