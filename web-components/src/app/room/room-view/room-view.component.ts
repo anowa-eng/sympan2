@@ -37,6 +37,8 @@ export class RoomViewComponent {
     KeyD: RoomEventTypes.TurnRight
   }
 
+  PI = Math.PI;
+
   constructor(private httpClient: HttpClient) {
     this.httpClient.get('/api/roomdata')
       .subscribe((response: any) => {
