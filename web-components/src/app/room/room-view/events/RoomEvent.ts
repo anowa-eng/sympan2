@@ -17,6 +17,8 @@ export enum RoomEventStates {
 export type RoomEventType = RoomEventTypes.TurnRight | RoomEventTypes.TurnLeft | RoomEventTypes.MoveForward | RoomEventTypes.MoveBackward
 export type RoomEventState = RoomEventStates.Issue | RoomEventStates.Terminate;
 
+// Terminal velocity in px/s
+let terminalVelocity = 20;
 export class Attendee {
     data: AttendeePositionData;
     _events: RoomEvent[] = [];
