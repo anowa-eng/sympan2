@@ -1,3 +1,5 @@
+import { Attendee } from "./events/RoomEvent";
+
 export interface AttendeeUserProfileSourceData {
     avatar: string;
 }
@@ -19,4 +21,11 @@ export interface AttendeeData {
     user: AttendeeUserData;
     room: number;
     data: AttendeePositionData;
+}
+
+export interface AttendeeDataWithObject {
+    id: number;
+    user: AttendeeUserData;
+    room: number;
+    data: Attendee;
 }
