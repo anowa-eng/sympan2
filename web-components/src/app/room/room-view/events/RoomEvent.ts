@@ -1,5 +1,5 @@
 import { EventEmitter } from "@angular/core";
-import { AttendeePositionData } from "../attendee-types";
+import { AttendeePositionData, AttendeeDataWithObject } from "../attendee-types";
 import { updateDrag } from "./refresh/updateDrag";
 import { updatePosition } from "./refresh/updatePosition";
 import { updateVelocities } from "./refresh/updateVelocities";
@@ -29,6 +29,8 @@ export class Attendee {
         drag: 0,
         angularDrag: 0
     };
+    static _roomData: AttendeeDataWithObject[] = [];
+    static _localAttendee?: AttendeeDataWithObject;
     constructor(positionData: AttendeePositionData) {
         this.data = positionData;
     }
@@ -41,6 +43,13 @@ export class Attendee {
     playTimeline = () => {
         this.refresh();
         requestAnimationFrame(this.playTimeline);
+    }
+
+    static loadRoomData(data: AttendeeDataWithObject[]) {
+      Attendee._roomData = data;
+    }
+    static loadLocalAttendeeData(data: AttendeeDataWithObject) {
+      Attendee._localAttendee = data;
     }
 }
 export class RoomEvent {

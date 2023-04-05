@@ -47,10 +47,12 @@ export class RoomViewComponent {
           data: new Attendee(attendee.data)
         }));
         this.localAttendee = this.roomData.find((attendee) => attendee.user.id === this.userId);
+        this.loadDataIntoAttendee();
         this.roomData.forEach((attendee: AttendeeDataWithObject) => {
           attendee.data.playTimeline();
           attendee.data.onRefresh.subscribe(() => {
             this.setViewBox();
+            this.loadDataIntoAttendee();
           });
         });
         this.onInit();
@@ -58,6 +60,12 @@ export class RoomViewComponent {
   }
 
   onInit() {
+  }
+
+  loadDataIntoAttendee() {
+    Attendee.loadRoomData(this.roomData);
+    if (this.localAttendee)
+      Attendee.loadLocalAttendeeData(this.localAttendee!);
   }
 
   setViewBox() {
