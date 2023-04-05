@@ -29,3 +29,8 @@ export interface AttendeeDataWithObject {
     room: number;
     data: Attendee;
 }
+
+export interface DistanceData {
+  id: number;
+  distance: number;
+}

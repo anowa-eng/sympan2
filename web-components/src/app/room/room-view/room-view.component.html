@@ -11,6 +11,8 @@
     <g attr.transform="rotate({{-viewBox.rotate}})" attr.transform-origin="{{localAttendee!.data!.data!.x || 0}} {{localAttendee!.data!.data!.y || 0}}">
         <circle
             r="12.5"
+            cx="0"
+            cy="0"
             attr.transform="translate({{attendee.data.data.x}} {{attendee.data.data.y}}) rotate({{attendee.data.data.direction * 180 / PI}})"
             attr.fill="url(#pattern-{{attendee.user.id}})"
             *ngFor="let attendee of roomData"></circle>
