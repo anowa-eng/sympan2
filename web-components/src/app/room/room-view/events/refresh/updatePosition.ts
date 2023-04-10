@@ -23,13 +23,14 @@ export function updatePosition(attendee: Attendee) {
           )
           return {
             id: a.id,
+            attendee: a,
             distance: distance
           };
         });
       let circleRadius = 12.5,
         collisionBoundaryDistance = 25;
       let boundaryCrossingAttendeeDistanceData: DistanceData | undefined = distances.find((a: DistanceData) =>
-        a.distance <= collisionBoundaryDistance && a.id !== Attendee._localAttendee!.id);
+        a.distance <= collisionBoundaryDistance && a.attendee !== Attendee._localAttendee);
 
       // Change position according to the boundary-crossing attendee
       if (boundaryCrossingAttendeeDistanceData) {
@@ -47,8 +48,8 @@ export function updatePosition(attendee: Attendee) {
 
           let newPosition = {
             direction: direction,
-            y: boundaryCrossingAttendee!.data.data.y + (Math.sin(angle) * collisionBoundaryDistance / 2),
-            x: boundaryCrossingAttendee!.data.data.x + (Math.cos(angle) * collisionBoundaryDistance / 2)
+            y: boundaryCrossingAttendee!.data.data.y + (Math.sin(angle) * collisionBoundaryDistance),
+            x: boundaryCrossingAttendee!.data.data.x + (Math.cos(angle) * collisionBoundaryDistance)
           };
           x = newPosition.x;
           y = newPosition.y;

@@ -33,4 +33,5 @@ export interface AttendeeDataWithObject {
 export interface DistanceData {
   id: number;
   distance: number;
+  attendee: AttendeeDataWithObject;
 }
