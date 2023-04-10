@@ -25,12 +25,13 @@ export function updatePosition(attendee: Attendee) {
           )
           return {
             id: a.id,
+            attendee: a,
             distance: distance
           };
         });
       let collisionBoundaryDistance = 25;
       let boundaryCrossingAttendeeDistanceData: DistanceData | undefined = distances.find((a: DistanceData) =>
-        a.distance < collisionBoundaryDistance && a.id !== Attendee._localAttendee!.id);
+        a.distance <= collisionBoundaryDistance && a.attendee !== Attendee._localAttendee);
 
       // Change position according to the boundary-crossing attendee
       if (boundaryCrossingAttendeeDistanceData) {
@@ -51,8 +52,8 @@ export function updatePosition(attendee: Attendee) {
 
           let newPosition = {
             direction: direction,
-            y: boundaryCrossingAttendee!.data.data.y + (Math.sin(angle) * (collisionBoundaryDistance - boundaryCrossingAttendeeDistanceData!.distance)),
-            x: boundaryCrossingAttendee!.data.data.x + (Math.cos(angle) * (collisionBoundaryDistance - boundaryCrossingAttendeeDistanceData!.distance))
+            y: boundaryCrossingAttendee!.data.data.y + (Math.sin(angle) * collisionBoundaryDistance),
+            x: boundaryCrossingAttendee!.data.data.x + (Math.cos(angle) * collisionBoundaryDistance)
           };
           console.log((Math.sin(angle) * collisionBoundaryDistance));
           x = newPosition.x;
