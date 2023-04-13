@@ -36,6 +36,7 @@ export function updatePosition(attendee: Attendee) {
         let firstBoundaryCrossingAttendeeId = boundaryCrossingAttendeeDistanceData!.id;
 
         let boundaryCrossingAttendee = Attendee._roomData.find((a: AttendeeDataWithObject) => a.id === firstBoundaryCrossingAttendeeId);
+        console.log(boundaryCrossingAttendee);
 
         if (boundaryCrossingAttendee) {
           let angle = Math.atan2(
