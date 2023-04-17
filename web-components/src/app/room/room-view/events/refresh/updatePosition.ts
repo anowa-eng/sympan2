@@ -9,7 +9,7 @@ export function updatePosition(attendee: Attendee) {
       yIncrease = Math.sin(attendee.data.direction - Math.PI / 2) * (180 / Math.PI) * velocity,
       xIncrease = Math.cos(attendee.data.direction - Math.PI / 2) * (180 / Math.PI) * velocity;
 
-    let direction = attendee.data.direction + directionalIncrease,
+    let direction = (attendee.data.direction + directionalIncrease) % (2 * Math.PI),
       y = attendee.data.y + yIncrease,
       x = attendee.data.x + xIncrease;
 
@@ -45,12 +45,14 @@ export function updatePosition(attendee: Attendee) {
               boundaryCrossingAttendee!.data.data.x
             - Attendee._localAttendee!.data.data.x
           );
+          console.log(Math.abs(Math.sin(angle)) > 1);
 
           let newPosition = {
             direction: direction,
-            y: boundaryCrossingAttendee!.data.data.y + (Math.sin(angle) * collisionBoundaryDistance / 2),
-            x: boundaryCrossingAttendee!.data.data.x + (Math.cos(angle) * collisionBoundaryDistance / 2)
+            y: boundaryCrossingAttendee!.data.data.y + (Math.sin(angle) * collisionBoundaryDistance),
+            x: boundaryCrossingAttendee!.data.data.x + (Math.cos(angle) * collisionBoundaryDistance)
           };
+          console.log((Math.sin(angle) * collisionBoundaryDistance));
           x = newPosition.x;
           y = newPosition.y;
           direction = newPosition.direction;

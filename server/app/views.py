@@ -28,8 +28,6 @@ def get_initial_room_data(req):
         return JsonResponse({'data': serialized_data})
     except Exception as e:
         return JsonResponse({'error': str(e)})
-def api_roomdata(request, id):
-    return HttpResponse('whyw')
 def load_users(request):
     ids = request.GET.get('ids').split(',')
     users = User.objects.filter(pk__in=ids)
