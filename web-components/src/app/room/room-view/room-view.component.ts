@@ -43,12 +43,20 @@ export class RoomViewComponent {
   constructor(private httpClient: HttpClient) {
     this.httpClient.get('/api/roomdata')
       .subscribe((response: any) => {
-        this.roomData = response.data
-          .map((data: AttendeeData) => ({
-            ...data,
-            data: new Attendee(data.data)
-          }));
-        this.setViewBox();
+        this.roomData = response.data.map((attendee: AttendeeData) => ({
+          ...attendee,
+          data: new Attendee(attendee.data)
+        }));
+        this.localAttendee = this.roomData.find((attendee) => attendee.user.id === this.userId);
+        this.loadDataIntoAttendee();
+        this.roomData.forEach((attendee: AttendeeDataWithObject) => {
+          attendee.data.playTimeline();
+          attendee.data.onRefresh.subscribe(() => {
+            this.setViewBox();
+            this.loadDataIntoAttendee();
+          });
+        });
+        this.onInit();
       })
   }
 

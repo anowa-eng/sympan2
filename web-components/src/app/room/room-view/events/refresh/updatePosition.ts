@@ -1,5 +1,5 @@
 import { Attendee } from "../RoomEvent";
-import { AttendeeDataWithObject, DistanceData } from "./../../attendee-types"
+import { AttendeeDataWithObject, DistanceData } from "./../../attendee-types";
 
 
 export function updatePosition(attendee: Attendee) {
@@ -9,11 +9,9 @@ export function updatePosition(attendee: Attendee) {
       yIncrease = Math.sin(attendee.data.direction - Math.PI / 2) * (180 / Math.PI) * velocity,
       xIncrease = Math.cos(attendee.data.direction - Math.PI / 2) * (180 / Math.PI) * velocity;
 
-    let direction = (attendee.data.direction + directionalIncrease) % (2 * Math.PI),
+    let direction = attendee.data.direction + directionalIncrease,
       y = attendee.data.y + yIncrease,
       x = attendee.data.x + xIncrease;
-    let angle?: number; // Collision angle
-    let collisionDetected = false;
 
     // Detect collision
     if (Attendee._localAttendee) {
@@ -29,33 +27,30 @@ export function updatePosition(attendee: Attendee) {
             distance: distance
           };
         });
-      let collisionBoundaryDistance = 25;
+      let circleRadius = 12.5,
+        collisionBoundaryDistance = 25;
       let boundaryCrossingAttendeeDistanceData: DistanceData | undefined = distances.find((a: DistanceData) =>
         a.distance <= collisionBoundaryDistance && a.attendee !== Attendee._localAttendee);
 
       // Change position according to the boundary-crossing attendee
       if (boundaryCrossingAttendeeDistanceData) {
-        collisionDetected = true;
         let firstBoundaryCrossingAttendeeId = boundaryCrossingAttendeeDistanceData!.id;
 
         let boundaryCrossingAttendee = Attendee._roomData.find((a: AttendeeDataWithObject) => a.id === firstBoundaryCrossingAttendeeId);
-        console.log(boundaryCrossingAttendee);
 
         if (boundaryCrossingAttendee) {
-          angle = Math.atan2(
+          let angle = Math.atan2(
               boundaryCrossingAttendee!.data.data.y
             - Attendee._localAttendee!.data.data.y,
               boundaryCrossingAttendee!.data.data.x
             - Attendee._localAttendee!.data.data.x
           );
-          console.log(Math.abs(Math.sin(angle)) > 1);
 
           let newPosition = {
             direction: direction,
             y: boundaryCrossingAttendee!.data.data.y + (Math.sin(angle) * collisionBoundaryDistance),
             x: boundaryCrossingAttendee!.data.data.x + (Math.cos(angle) * collisionBoundaryDistance)
           };
-          console.log((Math.sin(angle) * collisionBoundaryDistance));
           x = newPosition.x;
           y = newPosition.y;
           direction = newPosition.direction;
@@ -64,6 +59,6 @@ export function updatePosition(attendee: Attendee) {
     }
 
     attendee.data.direction = direction;
-    if (collisionDetected && Math.abs(Math.sin(angle!)) >= 0.00001) attendee.data.y = y;
-    if (collisionDetected && Math.abs(Math.cos(angle!)) >= 0.00001) attendee.data.x = x;
+    attendee.data.y = y;
+    attendee.data.x = x;
 }
