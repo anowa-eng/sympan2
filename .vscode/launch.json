@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "command": "/workspace/sympan2/runserver.sh",
+            "name": "Run server",
+            "request": "launch",
+            "type": "node-terminal",
+            "localRoot": "${workspaceFolder}"
+        }
+    ],
+}
