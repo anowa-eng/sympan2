@@ -1,4 +1,5 @@
 import { Attendee } from "./events/RoomEvent";
+import { Complex } from 'mathjs';
 
 export interface AttendeeUserProfileSourceData {
     avatar: string;
@@ -32,5 +33,5 @@ export interface AttendeeDataWithObject {
 
 export interface DistanceData {
   id: number;
-  distance: number;
+  distance: number | Complex;
 }
