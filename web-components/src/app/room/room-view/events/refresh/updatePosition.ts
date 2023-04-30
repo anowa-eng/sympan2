@@ -72,6 +72,7 @@ export function updatePosition(attendee: Attendee) {
             // @ts-ignore
             x: boundaryCrossingAttendee!.data.data.x + (math.cos(angle) * (collisionBoundaryDistance - boundaryCrossingAttendeeDistanceData!.distance))
           };
+          console.log(JSON.stringify({newPosition, angle}));
 
           console.log(angle);
           let angleApproximatesZero = Math.abs(angle) <= (Math.PI / 180);
