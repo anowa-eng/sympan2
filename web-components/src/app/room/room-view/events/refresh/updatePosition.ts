@@ -75,8 +75,6 @@ export function updatePosition(attendee: Attendee) {
           console.log(JSON.stringify({newPosition, angle}));
 
           console.log(angle);
-          let angleApproximatesZero = Math.abs(angle) <= (Math.PI / 180);
-          if (angleApproximatesZero) console.log('angleApproximatesZero')
           x = newPosition.x;
           y = newPosition.y;
           direction = newPosition.direction;
