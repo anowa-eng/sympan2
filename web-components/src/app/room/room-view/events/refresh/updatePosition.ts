@@ -76,7 +76,7 @@ export function updatePosition(attendee: Attendee) {
 
           console.log(angle);
           x = newPosition.x;
-          y = newPosition.y;
+          y = newPosition.y;  
           direction = newPosition.direction;
         }
       }
